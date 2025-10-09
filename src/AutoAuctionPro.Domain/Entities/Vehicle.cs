@@ -1,0 +1,79 @@
+﻿using AutoAuctionPro.Domain.Enums;
+
+namespace AutoAuctionPro.Domain.Entities
+{
+    /// <summary>
+    /// Represents a generic vehicle that can be listed in an auction.
+    /// </summary>
+    /// <remarks>
+    /// This abstract base class defines common properties and validation rules
+    /// for all vehicle types (e.g., Sedan, SUV).
+    /// </remarks>
+    public abstract class Vehicle
+    {
+        /// <summary>
+        /// Unique identifier for the vehicle.
+        /// </summary>
+        public string Id { get; init; }
+        /// <summary>
+        /// Type of the vehicle (e.g., Sedan, SUV).
+        /// </summary>
+        public VehicleType Type { get; init; }
+        /// <summary>
+        /// Vehicle manufacturer (e.g., BMW, Mercedes).
+        /// </summary>
+        public string Manufacturer { get; init; }
+        /// <summary>
+        /// Specific model of the vehicle (e.g., CLA45, E36).
+        /// </summary>
+        public string Model { get; init; }
+        /// <summary>
+        /// Manufacturing year of the vehicle.
+        /// Must be between 1800 and the current year.
+        /// </summary>
+        public int Year { get; init; }
+        /// <summary>
+        /// Starting bid amount for the auction.
+        /// Must be non-negative.
+        /// </summary>
+        public decimal StartingBid { get; init; }
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vehicle"/> class with validation.
+        /// </summary>
+        /// <param name="id">Unique vehicle identifier.</param>
+        /// <param name="type">Type of the vehicle.</param>
+        /// <param name="manufacturer">Vehicle manufacturer.</param>
+        /// <param name="model">Vehicle model name.</param>
+        /// <param name="year">Year of manufacture.</param>
+        /// <param name="startingBid">Initial bid amount.</param>
+        /// <exception cref="ArgumentException">Thrown when id, manufacturer or model is null or empty.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when year or startingBid are out of valid range.</exception>
+        protected Vehicle(string id, VehicleType type, string manufacturer, string model, int year, decimal startingBid)
+        {
+            if (string.IsNullOrWhiteSpace(id)) 
+                throw new ArgumentException("id is required", nameof(id));
+
+            if (string.IsNullOrWhiteSpace(manufacturer)) 
+                throw new ArgumentException("manufacturer is required", nameof(manufacturer));
+
+            if (string.IsNullOrWhiteSpace(model)) 
+                throw new ArgumentException("model is required", nameof(model));
+
+            if (year < 1800 || year > DateTime.UtcNow.Year) 
+                throw new ArgumentOutOfRangeException(nameof(year));
+
+            if (startingBid < 0) 
+                throw new ArgumentOutOfRangeException(nameof(startingBid));
+
+
+            Id = id;
+            Type = type;
+            Manufacturer = manufacturer;
+            Model = model;
+            Year = year;
+            StartingBid = startingBid;
+        }
+    }
+}
