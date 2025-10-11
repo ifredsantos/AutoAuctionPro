@@ -5,6 +5,10 @@ VisualStudioVersion = 17.14.36408.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoAuctionPro.Domain", "AutoAuctionPro.Domain\AutoAuctionPro.Domain.csproj", "{73162CD7-8251-42CA-9D5D-B19084AD90F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoAuctionPro.Application", "AutoAuctionPro.Application\AutoAuctionPro.Application.csproj", "{255BBC32-4B88-4EDF-B62A-10B244075142}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoAuctionPro.Infrastructure", "AutoAuctionPro.Infrastructure\AutoAuctionPro.Infrastructure.csproj", "{B7495D6C-F0F5-4474-A5EE-9B1880FE792A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{73162CD7-8251-42CA-9D5D-B19084AD90F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73162CD7-8251-42CA-9D5D-B19084AD90F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73162CD7-8251-42CA-9D5D-B19084AD90F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{255BBC32-4B88-4EDF-B62A-10B244075142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{255BBC32-4B88-4EDF-B62A-10B244075142}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{255BBC32-4B88-4EDF-B62A-10B244075142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{255BBC32-4B88-4EDF-B62A-10B244075142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7495D6C-F0F5-4474-A5EE-9B1880FE792A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7495D6C-F0F5-4474-A5EE-9B1880FE792A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7495D6C-F0F5-4474-A5EE-9B1880FE792A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7495D6C-F0F5-4474-A5EE-9B1880FE792A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
