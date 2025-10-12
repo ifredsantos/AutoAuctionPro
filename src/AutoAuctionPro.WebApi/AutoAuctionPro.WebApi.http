@@ -1,0 +1,6 @@
+@AutoAuctionPro.WebApi_HostAddress = http://localhost:5270
+
+GET {{AutoAuctionPro.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

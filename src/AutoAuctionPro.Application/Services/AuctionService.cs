@@ -4,7 +4,7 @@ using AutoAuctionPro.Domain.Exceptions;
 
 namespace AutoAuctionPro.Application.Services
 {
-    public class AuctionService
+    public class AuctionService : IAuctionService
     {
         private readonly IVehicleRepository _vehicleRepository;
         private readonly IAuctionRepository _auctionRepository;
@@ -59,6 +59,11 @@ namespace AutoAuctionPro.Application.Services
             _auctionRepository.Update(auction);
 
             return (bid?.BidderName, bid?.Amount);
+        }
+
+        public IEnumerable<Auction> GetAll()
+        {
+            return _auctionRepository.GetAll();
         }
     }
 }

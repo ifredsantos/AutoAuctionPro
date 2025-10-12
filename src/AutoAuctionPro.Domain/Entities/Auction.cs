@@ -21,7 +21,7 @@ namespace AutoAuctionPro.Domain.Entities
         public IReadOnlyList<Bid> Bids => _bids.AsReadOnly();
         public decimal CurrentHighestBid => _bids.Any() ? _bids.Max(b => b.Amount) : StartingBid;
 
-        public Auction(string? vehicleId, decimal startingBid)
+        public Auction(string vehicleId, decimal startingBid)
         {
             VehicleId = vehicleId;
             StartingBid = startingBid;

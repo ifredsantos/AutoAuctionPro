@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AutoAuctionPro.Application.Services
 {
-    public class VehicleService
+    public class VehicleService : IVehicleService
     {
         private readonly IVehicleRepository _vehicleRepository;
 
@@ -19,7 +19,7 @@ namespace AutoAuctionPro.Application.Services
             _vehicleRepository = vehicleRepository ?? throw new ArgumentNullException("Missing " + nameof(vehicleRepository));
         }
 
-        public void AddVehicle(Vehicle vehicle)
+        public void Add(Vehicle vehicle)
         {
             if (vehicle == null)
                 throw new ArgumentNullException("It is necessary to fill in the " + nameof(vehicle));
@@ -30,7 +30,12 @@ namespace AutoAuctionPro.Application.Services
             _vehicleRepository.Add(vehicle);
         }
 
-        public List<Vehicle> Search(VehicleSearchCriteria filterCriteria)
+        public Vehicle? GetById(string id)
+        {
+            return _vehicleRepository.GetById(id);
+        }
+
+        public IEnumerable<Vehicle> GetAll(VehicleSearchCriteria filterCriteria)
         {
             var allVehicles = _vehicleRepository.GetAll();
             var query = allVehicles.AsQueryable();

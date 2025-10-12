@@ -33,7 +33,7 @@ namespace AutoAuctionPro.Tests
                 VehicleService vehicleService = new VehicleService(vehicleRepo);
 
                 var car = new Sedan("Mercedes-Benz", "CLA45 AMG", 2015, 15000, 5);
-                vehicleService.AddVehicle(car);
+                vehicleService.Add(car);
 
                 auctionService.StartAuction(car.Id);
 
@@ -63,9 +63,9 @@ namespace AutoAuctionPro.Tests
                 AuctionService auctionService = new AuctionService(vehicleRepo, auctionRepo, bidRepo);
                 VehicleService vehicleService = new VehicleService(vehicleRepo);
 
-                List<Vehicle> searchResult = vehicleService.Search(new VehicleSearchCriteria(VehicleType.SUV));
+                IEnumerable<Vehicle> searchResult = vehicleService.GetAll(new VehicleSearchCriteria(VehicleType.SUV));
 
-                if (searchResult != null && searchResult.Count > 0)
+                if (searchResult != null && searchResult.Count() > 0)
                 {
                     Vehicle car = searchResult.FirstOrDefault();
 

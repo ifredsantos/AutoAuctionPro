@@ -44,12 +44,18 @@ namespace AutoAuctionPro.Tests
 
         private static string GetConnectionString()
         {
-            var conn = Environment.GetEnvironmentVariable("DATABASE_CONNECTION");
+            var host = Environment.GetEnvironmentVariable("POSTGRES_HOST");
+            var port = Environment.GetEnvironmentVariable("POSTGRES_PORT");
+            var db = Environment.GetEnvironmentVariable("POSTGRES_DB");
+            var user = Environment.GetEnvironmentVariable("POSTGRES_USER");
+            var pass = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
 
-            if (string.IsNullOrEmpty(conn))
+            var connectionString = $"Host={host};Port={port};Database={db};Username={user};Password={pass}";
+
+            if (string.IsNullOrEmpty(connectionString))
                 throw new InvalidOperationException("Please set the environment variable DATABASE_CONNECTION");
 
-            return conn;
+            return connectionString;
         }
     }
 }
