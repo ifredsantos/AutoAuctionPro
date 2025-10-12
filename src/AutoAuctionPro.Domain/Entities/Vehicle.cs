@@ -38,6 +38,8 @@ namespace AutoAuctionPro.Domain.Entities
         /// </summary>
         public decimal StartingBid { get; init; }
 
+        public List<Auction> Auction { get; set; } = new List<Auction>();
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Vehicle"/> class with validation.
@@ -50,11 +52,8 @@ namespace AutoAuctionPro.Domain.Entities
         /// <param name="startingBid">Initial bid amount.</param>
         /// <exception cref="ArgumentException">Thrown when id, manufacturer or model is null or empty.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when year or startingBid are out of valid range.</exception>
-        protected Vehicle(string id, VehicleType type, string manufacturer, string model, int year, decimal startingBid)
+        protected Vehicle(VehicleType type, string manufacturer, string model, int year, decimal startingBid)
         {
-            if (string.IsNullOrWhiteSpace(id)) 
-                throw new ArgumentException("id is required", nameof(id));
-
             if (string.IsNullOrWhiteSpace(manufacturer)) 
                 throw new ArgumentException("manufacturer is required", nameof(manufacturer));
 
@@ -68,12 +67,21 @@ namespace AutoAuctionPro.Domain.Entities
                 throw new ArgumentOutOfRangeException(nameof(startingBid));
 
 
-            Id = id;
             Type = type;
             Manufacturer = manufacturer;
             Model = model;
             Year = year;
             StartingBid = startingBid;
+            Id = GenerateCustomId();
         }
+
+        private string GenerateCustomId()
+        {
+            string manufacturerPart = (Manufacturer?.Length > 5 ? Manufacturer.Substring(0, 5) : Manufacturer ?? string.Empty);
+            string modelPart = (Model?.Length > 5 ? Model.Substring(0, 5) : Model ?? string.Empty);
+
+            return $"{manufacturerPart}-{modelPart}-{Year}-{Guid.NewGuid().ToString().Substring(0, 8)}".ToUpper();
+        }
+
     }
 }

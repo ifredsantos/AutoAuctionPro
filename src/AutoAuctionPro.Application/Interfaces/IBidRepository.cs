@@ -8,12 +8,8 @@ using System.Threading.Tasks;
 
 namespace AutoAuctionPro.Application.Interfaces
 {
-    public interface IAuctionRepository
+    public interface IBidRepository
     {
-        void Add(Auction auction);
-        void Update(Auction auction);
-        Auction? GetActiveByVehicleId(string vehicleId);
-        void Remove(Guid id);
-        IEnumerable<Auction> GetAll();
+        void Add(Bid bid);
     }
 }

@@ -13,6 +13,7 @@ namespace AutoAuctionPro.Infrastructure
     public class VehicleRepository : IVehicleRepository
     {
         private readonly AppDbContext _db;
+
         public VehicleRepository(AppDbContext db)
         {
             _db = db ?? throw new ArgumentNullException("Missing " + nameof(db));

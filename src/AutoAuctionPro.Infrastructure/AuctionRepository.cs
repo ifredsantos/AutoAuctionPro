@@ -13,6 +13,7 @@ namespace AutoAuctionPro.Infrastructure
     public class AuctionRepository : IAuctionRepository
     {
         private readonly AppDbContext _db;
+
         public AuctionRepository(AppDbContext db)
         {
             _db = db ?? throw new ArgumentNullException("Missing " + nameof(db));
@@ -24,6 +25,12 @@ namespace AutoAuctionPro.Infrastructure
             _db.SaveChanges();
         }
 
+        public void Update(Auction auction)
+        {
+            _db.Auctions.Update(auction);
+            _db.SaveChanges();
+        }
+
         public IEnumerable<Auction> GetAll()
         {
             return _db.Auctions.AsNoTracking().ToList();
@@ -31,12 +38,12 @@ namespace AutoAuctionPro.Infrastructure
 
         public Auction? GetActiveByVehicleId(string vehicleId)
         {
-            return _db.Auctions.FirstOrDefault(x => x.VehicleId == vehicleId && x.IsActive);
+            return _db.Auctions.Include(a => a.Bids).AsTracking().FirstOrDefault(x => x.VehicleId == vehicleId && x.IsActive);
         }
 
-        public void Remove(string vehicleId)
+        public void Remove(Guid id)
         {
-            var auction = _db.Auctions.Find(vehicleId);
+            var auction = _db.Auctions.Find(id);
             if (auction != null)
             {
                 _db.Auctions.Remove(auction);

@@ -11,8 +11,8 @@ namespace AutoAuctionPro.Domain.Entities
         public int NumberOfDoors { get; init; }
 
 
-        public Hatchback(string id, string manufacturer, string model, int year, decimal startingBid, int numberOfDoors)
-        : base(id, Enums.VehicleType.Hatchback, manufacturer, model, year, startingBid)
+        public Hatchback(string manufacturer, string model, int year, decimal startingBid, int numberOfDoors)
+        : base(Enums.VehicleType.Hatchback, manufacturer, model, year, startingBid)
         {
             if (numberOfDoors <= 0) 
                 throw new ArgumentOutOfRangeException(nameof(numberOfDoors));

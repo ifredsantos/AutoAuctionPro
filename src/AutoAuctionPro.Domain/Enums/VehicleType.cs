@@ -8,7 +8,7 @@ namespace AutoAuctionPro.Domain.Enums
 {
     public enum VehicleType
     {
-        Sedan,
+        Sedan = 1,
         SUV,
         Hatchback,
         Truck
