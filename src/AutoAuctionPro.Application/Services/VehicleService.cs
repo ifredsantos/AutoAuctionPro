@@ -19,25 +19,25 @@ namespace AutoAuctionPro.Application.Services
             _vehicleRepository = vehicleRepository ?? throw new ArgumentNullException("Missing " + nameof(vehicleRepository));
         }
 
-        public void Add(Vehicle vehicle)
+        public async Task AddAsync(Vehicle vehicle)
         {
             if (vehicle == null)
                 throw new ArgumentNullException("It is necessary to fill in the " + nameof(vehicle));
 
-            if (_vehicleRepository.Exists(vehicle.Id))
+            if (await _vehicleRepository.ExistsAsync(vehicle.Id))
                 throw new DuplicateVehicleException(vehicle.Id);
 
-            _vehicleRepository.Add(vehicle);
+            await _vehicleRepository.AddAsync(vehicle);
         }
 
-        public Vehicle? GetById(string id)
+        public async Task<Vehicle?> GetByIdAsync(string id)
         {
-            return _vehicleRepository.GetById(id);
+            return await _vehicleRepository.GetByIdAsync(id);
         }
 
-        public IEnumerable<Vehicle> GetAll(VehicleSearchCriteria filterCriteria)
+        public async Task<IEnumerable<Vehicle>> GetAllAsync(VehicleSearchCriteria filterCriteria)
         {
-            var allVehicles = _vehicleRepository.GetAll();
+            var allVehicles = await _vehicleRepository.GetAllAsync();
             var query = allVehicles.AsQueryable();
 
             if (filterCriteria.Type.HasValue)

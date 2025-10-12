@@ -10,10 +10,10 @@ namespace AutoAuctionPro.Application.Interfaces
 {
     public interface IAuctionRepository
     {
-        void Add(Auction auction);
-        void Update(Auction auction);
-        Auction? GetActiveByVehicleId(string vehicleId);
-        void Remove(Guid id);
-        IEnumerable<Auction> GetAll();
+        Task AddAsync(Auction auction);
+        Task UpdateAsync(Auction auction);
+        Task<Auction?> GetActiveByVehicleIdAsync(string vehicleId);
+        Task RemoveAsync(Guid id);
+        Task<IEnumerable<Auction>> GetAllAsync();
     }
 }

@@ -19,35 +19,35 @@ namespace AutoAuctionPro.Infrastructure
             _db = db ?? throw new ArgumentNullException("Missing " + nameof(db));
         }
 
-        public void Add(Auction auction)
+        public async Task AddAsync(Auction auction)
         {
-            _db.Auctions.Add(auction);
-            _db.SaveChanges();
+            await _db.Auctions.AddAsync(auction);
+            await _db.SaveChangesAsync();
         }
 
-        public void Update(Auction auction)
+        public async Task UpdateAsync(Auction auction)
         {
             _db.Auctions.Update(auction);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public IEnumerable<Auction> GetAll()
+        public async Task<IEnumerable<Auction>> GetAllAsync()
         {
-            return _db.Auctions.AsNoTracking().ToList();
+            return await _db.Auctions.AsNoTracking().ToListAsync();
         }
 
-        public Auction? GetActiveByVehicleId(string vehicleId)
+        public async Task<Auction?> GetActiveByVehicleIdAsync(string vehicleId)
         {
-            return _db.Auctions.Include(a => a.Bids).AsTracking().FirstOrDefault(x => x.VehicleId == vehicleId && x.IsActive);
+            return await _db.Auctions.Include(a => a.Bids).AsTracking().FirstOrDefaultAsync(x => x.VehicleId == vehicleId && x.IsActive);
         }
 
-        public void Remove(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             var auction = _db.Auctions.Find(id);
             if (auction != null)
             {
                 _db.Auctions.Remove(auction);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
             }
         }
     }

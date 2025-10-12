@@ -9,16 +9,9 @@ namespace AutoAuctionPro.Application.Interfaces
 {
     public interface IAuctionService
     {
-        void StartAuction(string vehicleId);
-        void PlaceBid(string vehicleId, string bidder, decimal amount);
-        (string? Winner, decimal? Amount) CloseAuction(string vehicleId);
-        IEnumerable<Auction> GetAll();
+        Task StartAuctionAsync(string vehicleId);
+        Task PlaceBidAsync(string vehicleId, string bidder, decimal amount);
+        Task<(string? Winner, decimal? Amount)> CloseAuctionAsync(string vehicleId);
+        Task<IEnumerable<Auction>> GetAllAsync();
     }
-    //public interface IVehicleRepository
-    //{
-    //    void Add(Vehicle vehicle);
-    //    Vehicle? GetById(string id);
-    //    bool Exists(string id);
-    //    IEnumerable<Vehicle> GetAll();
-    //}
 }

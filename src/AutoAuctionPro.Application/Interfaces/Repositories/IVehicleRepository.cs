@@ -9,9 +9,9 @@ namespace AutoAuctionPro.Application.Interfaces
 {
     public interface IVehicleRepository
     {
-        void Add(Vehicle vehicle);
-        Vehicle? GetById(string id);
-        bool Exists(string id);
-        IEnumerable<Vehicle> GetAll();
+        Task AddAsync(Vehicle vehicle);
+        Task<Vehicle?> GetByIdAsync(string id);
+        Task<bool> ExistsAsync(string id);
+        Task<IEnumerable<Vehicle>> GetAllAsync();
     }
 }

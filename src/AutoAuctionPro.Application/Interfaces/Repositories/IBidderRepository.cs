@@ -4,6 +4,6 @@ namespace AutoAuctionPro.Application.Interfaces
 {
     public interface IBidderRepository
     {
-        Bidder GetOrCreate(string bidderUsername);
+        Task<Bidder> GetOrCreateAsync(string bidderUsername);
     }
 }

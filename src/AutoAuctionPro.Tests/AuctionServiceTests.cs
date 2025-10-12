@@ -21,7 +21,7 @@ namespace AutoAuctionPro.Tests
         }
 
         [Fact]
-        public void TestAllFlow()
+        public async Task TestAllFlow()
         {
             using (_db)
             {
@@ -33,17 +33,17 @@ namespace AutoAuctionPro.Tests
                 VehicleService vehicleService = new VehicleService(vehicleRepo);
 
                 var car = new Sedan("Mercedes-Benz", "CLA45 AMG", 2015, 15000, 5);
-                vehicleService.Add(car);
+                await vehicleService.AddAsync(car);
 
-                auctionService.StartAuction(car.Id);
+                await auctionService.StartAuctionAsync(car.Id);
 
-                auctionService.PlaceBid(car.Id, "Frederico Santos", 17000);
-                auctionService.PlaceBid(car.Id, "Ana Maria", 18000);
-                auctionService.PlaceBid(car.Id, "Frederico Santos", 19500);
-                auctionService.PlaceBid(car.Id, "João Simões", 20000);
-                auctionService.PlaceBid(car.Id, "Frederico Santos", 21000);
+                await auctionService.PlaceBidAsync(car.Id, "Frederico Santos", 17000);
+                await auctionService.PlaceBidAsync(car.Id, "Ana Maria", 18000);
+                await auctionService.PlaceBidAsync(car.Id, "Frederico Santos", 19500);
+                await auctionService.PlaceBidAsync(car.Id, "João Simões", 20000);
+                await auctionService.PlaceBidAsync(car.Id, "Frederico Santos", 21000);
 
-                var result = auctionService.CloseAuction(car.Id);
+                var result = await auctionService.CloseAuctionAsync(car.Id);
 
                 string? winner = result.Winner;
                 decimal? amount = result.Amount;
@@ -52,7 +52,7 @@ namespace AutoAuctionPro.Tests
 
 
         [Fact]
-        public void TestWithoutBids()
+        public async Task TestWithoutBids()
         {
             using (_db)
             {
@@ -63,15 +63,15 @@ namespace AutoAuctionPro.Tests
                 AuctionService auctionService = new AuctionService(vehicleRepo, auctionRepo, bidRepo);
                 VehicleService vehicleService = new VehicleService(vehicleRepo);
 
-                IEnumerable<Vehicle> searchResult = vehicleService.GetAll(new VehicleSearchCriteria(VehicleType.SUV));
+                IEnumerable<Vehicle> searchResult = await vehicleService.GetAllAsync(new VehicleSearchCriteria(VehicleType.SUV));
 
                 if (searchResult != null && searchResult.Count() > 0)
                 {
                     Vehicle car = searchResult.FirstOrDefault();
 
-                    auctionService.StartAuction(car.Id);
+                    await auctionService.StartAuctionAsync(car.Id);
 
-                    var result = auctionService.CloseAuction(car.Id);
+                    var result = await auctionService.CloseAuctionAsync(car.Id);
 
                     string? winner = result.Winner;
                     decimal? amount = result.Amount;

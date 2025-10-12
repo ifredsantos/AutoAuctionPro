@@ -19,10 +19,10 @@ namespace AutoAuctionPro.Infrastructure
             _db = db ?? throw new ArgumentNullException("Missing " + nameof(db));
         }
 
-        public void Add(Bid bid)
+        public async Task AddAsync(Bid bid)
         {
-            _db.Bids.Add(bid);
-            _db.SaveChanges();
+            await _db.Bids.AddAsync(bid);
+            await _db.SaveChangesAsync();
         }
     }
 }

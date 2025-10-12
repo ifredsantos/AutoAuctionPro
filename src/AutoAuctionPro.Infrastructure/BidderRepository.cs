@@ -19,12 +19,12 @@ namespace AutoAuctionPro.Infrastructure
             _db = db ?? throw new ArgumentNullException("Missing " + nameof(db));
         }
 
-        public Bidder GetOrCreate(string bidderUsername)
+        public async Task<Bidder> GetOrCreateAsync(string bidderUsername)
         {
             Bidder bidder = new Bidder(bidderUsername);
 
-            _db.Bidders.Add(bidder);
-            _db.SaveChanges();
+            await _db.Bidders.AddAsync(bidder);
+            await _db.SaveChangesAsync();
 
             return bidder;
         }

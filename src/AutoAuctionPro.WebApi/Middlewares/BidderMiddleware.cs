@@ -15,7 +15,7 @@ namespace AutoAuctionPro.WebApi.Middlewares
         {
             if (context.Request.Headers.TryGetValue("X-Bidder-Username", out var username))
             {
-                var bidder = bidders.GetOrCreate(username);
+                var bidder = bidders.GetOrCreateAsync(username);
                 context.Items["Bidder"] = bidder;
             }
 

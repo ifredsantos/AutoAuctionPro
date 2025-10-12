@@ -10,8 +10,8 @@ namespace AutoAuctionPro.Application.Interfaces
 {
     public interface IVehicleService
     {
-        void Add(Vehicle vehicle);
-        Vehicle? GetById(string id);
-        IEnumerable<Vehicle> GetAll(VehicleSearchCriteria filterCriteria);
+        Task AddAsync(Vehicle vehicle);
+        Task<Vehicle?> GetByIdAsync(string id);
+        Task<IEnumerable<Vehicle>> GetAllAsync(VehicleSearchCriteria filterCriteria);
     }
 }

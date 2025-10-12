@@ -10,6 +10,6 @@ namespace AutoAuctionPro.Application.Interfaces
 {
     public interface IBidRepository
     {
-        void Add(Bid bid);
+        Task AddAsync(Bid bid);
     }
 }

@@ -17,26 +17,26 @@ namespace AutoAuctionPro.Application.Services
             _bidRepository = bidRepository;
         }
 
-        public void StartAuction(string vehicleId)
+        public async Task StartAuctionAsync(string vehicleId)
         {
-            var vehicle = _vehicleRepository.GetById(vehicleId) ?? throw new VehicleNotFoundException(vehicleId);
+            var vehicle = await _vehicleRepository.GetByIdAsync(vehicleId) ?? throw new VehicleNotFoundException(vehicleId);
             
-            var existingAuction = _auctionRepository.GetActiveByVehicleId(vehicleId);
+            var existingAuction = await _auctionRepository.GetActiveByVehicleIdAsync(vehicleId);
             if(existingAuction != null)
                 throw new AuctionAlreadyActiveException(vehicleId);
 
             var auction = new Auction(vehicleId, vehicle.StartingBid);
             auction.Start();
 
-            _auctionRepository.Add(auction);
+            await _auctionRepository.AddAsync(auction);
         }
 
-        public void PlaceBid(string vehicleId, string bidder, decimal amount)
+        public async Task PlaceBidAsync(string vehicleId, string bidder, decimal amount)
         {
             if(string.IsNullOrEmpty(bidder))
                 throw new ArgumentException("Bidder name is required", nameof(bidder));
 
-            var auction = _auctionRepository.GetActiveByVehicleId(vehicleId) ?? throw new AuctionNotActiveException(vehicleId);
+            var auction = await _auctionRepository.GetActiveByVehicleIdAsync(vehicleId) ?? throw new AuctionNotActiveException(vehicleId);
             var bid = new Bid(auction.Id, bidder, amount);
 
             try
@@ -48,22 +48,22 @@ namespace AutoAuctionPro.Application.Services
                 throw new InvalidBidException(ex.Message);
             }
 
-            _bidRepository.Add(bid);
+            await _bidRepository.AddAsync(bid);
         }
 
-        public (string? Winner, decimal? Amount) CloseAuction(string vehicleId)
+        public async Task<(string? Winner, decimal? Amount)> CloseAuctionAsync(string vehicleId)
         {
-            var auction = _auctionRepository.GetActiveByVehicleId(vehicleId) ?? throw new AuctionNotActiveException(vehicleId);
+            var auction = await _auctionRepository.GetActiveByVehicleIdAsync(vehicleId) ?? throw new AuctionNotActiveException(vehicleId);
             var bid = auction.Close();
 
-            _auctionRepository.Update(auction);
+            await _auctionRepository.UpdateAsync(auction);
 
             return (bid?.BidderName, bid?.Amount);
         }
 
-        public IEnumerable<Auction> GetAll()
+        public async Task<IEnumerable<Auction>> GetAllAsync()
         {
-            return _auctionRepository.GetAll();
+            return await _auctionRepository.GetAllAsync();
         }
     }
 }
