@@ -29,8 +29,9 @@ namespace AutoAuctionPro.Infrastructure
                 b.Property(v => v.Model).IsRequired();
                 b.Property(v => v.Year).IsRequired();
                 b.Property(v => v.StartingBid);
-                //Optei por usar o conceito Table Per Hierarchy para simplificar o mapeamento das subclasses
-                //desta forma evito criar várias tabelas uma para cada tipo
+                b.Property(v => v.IsSold);
+                //I chose to use the Table Per Hierarchy concept to simplify the mapping of subclasses.
+                //This way, I avoid creating multiple tables, one for each type.
                 b.HasDiscriminator(v => v.Type)
                     .HasValue<Sedan>(VehicleType.Sedan)
                     .HasValue<Hatchback>(VehicleType.Hatchback)

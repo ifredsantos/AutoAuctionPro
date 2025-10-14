@@ -19,10 +19,13 @@ namespace AutoAuctionPro.Infrastructure
             _db = db ?? throw new ArgumentNullException("Missing " + nameof(db));
         }
 
-        public async Task AddAsync(Auction auction)
+        public async Task<Auction> AddAsync(Auction auction)
         {
-            await _db.Auctions.AddAsync(auction);
+            var entry = await _db.Auctions.AddAsync(auction);
+            
             await _db.SaveChangesAsync();
+
+            return entry.Entity;
         }
 
         public async Task UpdateAsync(Auction auction)
@@ -33,12 +36,17 @@ namespace AutoAuctionPro.Infrastructure
 
         public async Task<IEnumerable<Auction>> GetAllAsync()
         {
-            return await _db.Auctions.AsNoTracking().ToListAsync();
+            return await _db.Auctions.Include(a => a.Vehicle).AsNoTracking().ToListAsync();
+        }
+
+        public async Task<Auction> GetByVehicleIdAsync(string vehicleId)
+        {
+            return await _db.Auctions.Include(a => a.Vehicle).Include(a => a.Bids).AsTracking().FirstOrDefaultAsync(x => x.VehicleId == vehicleId);
         }
 
         public async Task<Auction?> GetActiveByVehicleIdAsync(string vehicleId)
         {
-            return await _db.Auctions.Include(a => a.Bids).AsTracking().FirstOrDefaultAsync(x => x.VehicleId == vehicleId && x.IsActive);
+            return await _db.Auctions.Include(a => a.Vehicle).Include(a => a.Bids).AsTracking().FirstOrDefaultAsync(x => x.VehicleId == vehicleId && x.IsActive);
         }
 
         public async Task RemoveAsync(Guid id)

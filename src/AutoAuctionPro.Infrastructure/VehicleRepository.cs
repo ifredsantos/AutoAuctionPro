@@ -29,6 +29,12 @@ namespace AutoAuctionPro.Infrastructure
             await _db.SaveChangesAsync();
         }
 
+        public async Task UpdateAsync(Vehicle vehicle)
+        {
+            _db.Vehicles.Update(vehicle);
+            await _db.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<Vehicle>> GetAllAsync()
         {
             return await _db.Vehicles.AsNoTracking().ToListAsync();

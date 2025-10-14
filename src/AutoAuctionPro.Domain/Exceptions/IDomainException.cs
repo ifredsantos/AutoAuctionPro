@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace AutoAuctionPro.Domain.Exceptions
 {
-    public class InvalidBidException : DomainExceptionBase
+    public interface IDomainException
     {
-        public InvalidBidException(string message) : base(400, "Invalid Bid", message) { }
+        int StatusCode { get; }
+        string Title { get; }
     }
 }

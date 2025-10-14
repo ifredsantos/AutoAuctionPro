@@ -17,9 +17,12 @@ namespace AutoAuctionPro.Application.Services
             _bidRepository = bidRepository;
         }
 
-        public async Task StartAuctionAsync(string vehicleId)
+        public async Task<Auction> StartAuctionAsync(string vehicleId)
         {
             var vehicle = await _vehicleRepository.GetByIdAsync(vehicleId) ?? throw new VehicleNotFoundException(vehicleId);
+
+            if (vehicle.IsSold)
+                throw new VehicleIsAlreadySoldException(vehicle.Id);
             
             var existingAuction = await _auctionRepository.GetActiveByVehicleIdAsync(vehicleId);
             if(existingAuction != null)
@@ -28,7 +31,7 @@ namespace AutoAuctionPro.Application.Services
             var auction = new Auction(vehicleId, vehicle.StartingBid);
             auction.Start();
 
-            await _auctionRepository.AddAsync(auction);
+            return await _auctionRepository.AddAsync(auction);
         }
 
         public async Task PlaceBidAsync(string vehicleId, string bidder, decimal amount)
@@ -56,6 +59,9 @@ namespace AutoAuctionPro.Application.Services
             var auction = await _auctionRepository.GetActiveByVehicleIdAsync(vehicleId) ?? throw new AuctionNotActiveException(vehicleId);
             var bid = auction.Close();
 
+            if(!string.IsNullOrEmpty(bid.BidderName))
+                auction.Vehicle.IsSold = true;
+
             await _auctionRepository.UpdateAsync(auction);
 
             return (bid?.BidderName, bid?.Amount);
@@ -64,6 +70,11 @@ namespace AutoAuctionPro.Application.Services
         public async Task<IEnumerable<Auction>> GetAllAsync()
         {
             return await _auctionRepository.GetAllAsync();
+        }
+
+        public async Task<Auction> GetByVehicleIdAsync(string vehicleId)
+        {
+            return await _auctionRepository.GetByVehicleIdAsync(vehicleId) ?? throw new AuctionNotFoundException(vehicleId);
         }
     }
 }

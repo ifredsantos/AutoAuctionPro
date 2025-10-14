@@ -14,31 +14,35 @@ namespace AutoAuctionPro.Domain.Entities
         /// <summary>
         /// Unique identifier for the vehicle.
         /// </summary>
-        public string Id { get; init; }
+        public string Id { get; }
         /// <summary>
         /// Type of the vehicle (e.g., Sedan, SUV).
         /// </summary>
-        public VehicleType Type { get; init; }
+        public VehicleType Type { get; }
         /// <summary>
         /// Vehicle manufacturer (e.g., BMW, Mercedes).
         /// </summary>
-        public string Manufacturer { get; init; }
+        public string Manufacturer { get; }
         /// <summary>
         /// Specific model of the vehicle (e.g., CLA45, E36).
         /// </summary>
-        public string Model { get; init; }
+        public string Model { get; }
         /// <summary>
         /// Manufacturing year of the vehicle.
         /// Must be between 1800 and the current year.
         /// </summary>
-        public int Year { get; init; }
+        public int Year { get; }
         /// <summary>
         /// Starting bid amount for the auction.
         /// Must be non-negative.
         /// </summary>
-        public decimal StartingBid { get; init; }
+        public decimal StartingBid { get; }
+        /// <summary>
+        /// Indicates whether the vehicle has already been sold
+        /// </summary>
+        public bool IsSold { get; set; }
 
-        public List<Auction> Auction { get; set; } = new List<Auction>();
+        public List<Auction> Auction { get; } = new List<Auction>();
 
 
         /// <summary>

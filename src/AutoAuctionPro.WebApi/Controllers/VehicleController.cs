@@ -2,36 +2,80 @@
 using AutoAuctionPro.Application.Interfaces;
 using AutoAuctionPro.Domain.Entities;
 using AutoAuctionPro.Infrastructure;
+using AutoAuctionPro.WebApi.DTOs;
+using Mapster;
+using MapsterMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoAuctionPro.WebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class VehicleController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly IVehicleService _vehicleService;
-        private readonly IAuctionService _auctionService;
 
-        public VehicleController(IVehicleService vehicleService, IAuctionService auctionService)
+        public VehicleController(IMapper mapper, IVehicleService vehicleService)
         {
+            _mapper = mapper ?? throw new ArgumentNullException("Missing " + nameof(mapper));
             _vehicleService = vehicleService ?? throw new ArgumentNullException("Missing " + nameof(vehicleService));
-            _auctionService = auctionService ?? throw new ArgumentNullException("Missing " + nameof(auctionService));
         }
 
         // GET: api/vehicles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Vehicle>>> GetAll(VehicleSearchCriteria filterCriteria)
+        public async Task<ActionResult<IEnumerable<VehicleDTO>>> GetAll([FromBody] VehicleSearchCriteria filterCriteria = null)
         {
-            return Ok(null);
+            var vehicles = await _vehicleService.GetAllAsync(filterCriteria);
+            IEnumerable<VehicleDTO> vehiclesDTO = _mapper.Map<IEnumerable<VehicleDTO>>(vehicles);
+
+            return Ok(vehiclesDTO);
         }
 
         // GET: api/vehicles/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Vehicle>> GetById(string id)
+        public async Task<ActionResult<VehicleDTO>> GetById(string id)
         {
-            return Ok(null);
+            var vehicle = await _vehicleService.GetByIdAsync(id);
+            if (vehicle == null)
+                return NotFound($"Vehicle with ID {id} not found");
+
+            VehicleDTO vehicleDTO = _mapper.Map<VehicleDTO>(vehicle);
+
+            return Ok(vehicleDTO);
+        }
+
+        // POST: api/vehicles
+        [HttpPost]
+        public async Task<ActionResult> Create([FromBody] VehicleDTO request)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            Vehicle vehicle = null;
+
+            switch (request.Type)
+            {
+                case Domain.Enums.VehicleType.Sedan:
+                    vehicle = new Sedan(request.Manufacturer, request.Model, request.Year, request.StartingBid, request.NumberOfDoors);
+                    break;
+                case Domain.Enums.VehicleType.SUV:
+                    vehicle = new SUV(request.Manufacturer, request.Model, request.Year, request.StartingBid, request.NumberOfSeats);
+                    break;
+                case Domain.Enums.VehicleType.Hatchback:
+                    vehicle = new Hatchback(request.Manufacturer, request.Model, request.Year, request.StartingBid, request.NumberOfDoors);
+                    break;
+                case Domain.Enums.VehicleType.Truck:
+                    vehicle = new Truck(request.Manufacturer, request.Model, request.Year, request.StartingBid, request.LoadCapacityKg);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(request.Type), "Invalid vehicle type");
+            }
+
+            await _vehicleService.AddAsync(vehicle);
+
+            return CreatedAtAction(nameof(GetById), new { id = vehicle.Id}, vehicle);
         }
     }
 }

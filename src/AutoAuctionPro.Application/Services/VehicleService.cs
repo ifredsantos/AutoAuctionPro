@@ -32,7 +32,7 @@ namespace AutoAuctionPro.Application.Services
 
         public async Task<Vehicle?> GetByIdAsync(string id)
         {
-            return await _vehicleRepository.GetByIdAsync(id);
+            return await _vehicleRepository.GetByIdAsync(id) ?? throw new AuctionNotFoundException(id);
         }
 
         public async Task<IEnumerable<Vehicle>> GetAllAsync(VehicleSearchCriteria filterCriteria)
@@ -40,17 +40,20 @@ namespace AutoAuctionPro.Application.Services
             var allVehicles = await _vehicleRepository.GetAllAsync();
             var query = allVehicles.AsQueryable();
 
-            if (filterCriteria.Type.HasValue)
-                query = query.Where(v => v.Type == filterCriteria.Type.Value);
+            if (filterCriteria != null)
+            {
+                if (filterCriteria.Type.HasValue)
+                    query = query.Where(v => v.Type == filterCriteria.Type.Value);
 
-            if (!string.IsNullOrWhiteSpace(filterCriteria.Manufacture))
-                query = query.Where(v => v.Manufacturer.Equals(filterCriteria.Manufacture, StringComparison.OrdinalIgnoreCase));
+                if (!string.IsNullOrWhiteSpace(filterCriteria.Manufacture))
+                    query = query.Where(v => v.Manufacturer.Equals(filterCriteria.Manufacture, StringComparison.OrdinalIgnoreCase));
 
-            if (!string.IsNullOrWhiteSpace(filterCriteria.Model))
-                query = query.Where(v => v.Model.Equals(filterCriteria.Model, StringComparison.OrdinalIgnoreCase));
+                if (!string.IsNullOrWhiteSpace(filterCriteria.Model))
+                    query = query.Where(v => v.Model.Equals(filterCriteria.Model, StringComparison.OrdinalIgnoreCase));
 
-            if (filterCriteria.Year.HasValue)
-                query = query.Where(v => v.Year == filterCriteria.Year.Value);
+                if (filterCriteria.Year.HasValue)
+                    query = query.Where(v => v.Year == filterCriteria.Year.Value);
+            }
 
             return query.ToList();
         }
