@@ -7,7 +7,7 @@ namespace AutoAuctionPro.Tests
     {
         public static void SeedVehicles(AppDbContext db)
         {
-            if(db.Vehicles.Any())
+            if (db.Vehicles.Any())
                 return;
 
             List<Vehicle> vehicles = new List<Vehicle>

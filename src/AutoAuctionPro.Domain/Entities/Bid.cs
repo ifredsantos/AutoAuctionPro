@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AutoAuctionPro.Domain.Entities
+﻿namespace AutoAuctionPro.Domain.Entities
 {
     public class Bid
     {
@@ -18,10 +12,10 @@ namespace AutoAuctionPro.Domain.Entities
 
         public Bid(Guid auctionId, string bidderName, decimal amount)
         {
-            if (string.IsNullOrWhiteSpace(bidderName)) 
+            if (string.IsNullOrWhiteSpace(bidderName))
                 throw new ArgumentException("bidder name is required", nameof(bidderName));
 
-            if (amount < 0) 
+            if (amount < 0)
                 throw new ArgumentOutOfRangeException(nameof(amount));
 
             Id = Guid.NewGuid();

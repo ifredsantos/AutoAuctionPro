@@ -1,5 +1,4 @@
-﻿using AutoAuctionPro.Domain.Entities;
-using AutoAuctionPro.Domain.Enums;
+﻿using AutoAuctionPro.Domain.Enums;
 
 namespace AutoAuctionPro.WebApi.DTOs
 {

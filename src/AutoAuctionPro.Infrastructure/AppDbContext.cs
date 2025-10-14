@@ -2,11 +2,6 @@
 using AutoAuctionPro.Domain.Entities;
 using AutoAuctionPro.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AutoAuctionPro.Infrastructure
 {
@@ -54,7 +49,7 @@ namespace AutoAuctionPro.Infrastructure
                 b.Property(a => a.OpenDateUTC);
                 b.Property(a => a.CloseDateUTC);
                 b.Ignore(a => a.CurrentHighestBid);
-                
+
                 b.HasMany(a => a.Bids)
                     .WithOne(bid => bid.Auction)
                     .HasForeignKey(bid => bid.AuctionId)

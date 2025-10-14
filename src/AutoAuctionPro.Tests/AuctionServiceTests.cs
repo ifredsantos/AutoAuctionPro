@@ -3,9 +3,6 @@ using AutoAuctionPro.Application.Services;
 using AutoAuctionPro.Domain.Entities;
 using AutoAuctionPro.Domain.Enums;
 using AutoAuctionPro.Infrastructure;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using System.Net.WebSockets;
 
 namespace AutoAuctionPro.Tests
 {

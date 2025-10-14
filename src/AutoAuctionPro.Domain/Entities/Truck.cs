@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AutoAuctionPro.Domain.Entities
+﻿namespace AutoAuctionPro.Domain.Entities
 {
     public class Truck : Vehicle
     {
@@ -14,7 +8,7 @@ namespace AutoAuctionPro.Domain.Entities
         public Truck(string manufacturer, string model, int year, decimal startingBid, double loadCapacityKg)
         : base(Enums.VehicleType.Truck, manufacturer, model, year, startingBid)
         {
-            if (loadCapacityKg <= 0) 
+            if (loadCapacityKg <= 0)
                 throw new ArgumentOutOfRangeException(nameof(loadCapacityKg));
 
             LoadCapacityKg = loadCapacityKg;

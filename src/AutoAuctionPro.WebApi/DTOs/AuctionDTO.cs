@@ -1,6 +1,4 @@
-﻿using AutoAuctionPro.Domain.Entities;
-
-namespace AutoAuctionPro.WebApi.DTOs
+﻿namespace AutoAuctionPro.WebApi.DTOs
 {
     public class AuctionBaseDTO
     {

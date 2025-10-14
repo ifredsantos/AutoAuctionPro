@@ -1,12 +1,6 @@
 ﻿using AutoAuctionPro.Application.Interfaces;
 using AutoAuctionPro.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.WebSockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AutoAuctionPro.Infrastructure
 {
@@ -22,7 +16,7 @@ namespace AutoAuctionPro.Infrastructure
         public async Task<Auction> AddAsync(Auction auction)
         {
             var entry = await _db.Auctions.AddAsync(auction);
-            
+
             await _db.SaveChangesAsync();
 
             return entry.Entity;

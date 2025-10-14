@@ -1,13 +1,8 @@
 ﻿using AutoAuctionPro.Application.Interfaces;
-using AutoAuctionPro.Application.Services;
 using AutoAuctionPro.Domain.Entities;
-using AutoAuctionPro.Domain.Exceptions;
 using AutoAuctionPro.WebApi.DTOs;
-using Mapster;
 using MapsterMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace AutoAuctionPro.WebApi.Controllers
 {

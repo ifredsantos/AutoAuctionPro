@@ -23,9 +23,9 @@ namespace AutoAuctionPro.Application.Services
 
             if (vehicle.IsSold)
                 throw new VehicleIsAlreadySoldException(vehicle.Id);
-            
+
             var existingAuction = await _auctionRepository.GetActiveByVehicleIdAsync(vehicleId);
-            if(existingAuction != null)
+            if (existingAuction != null)
                 throw new AuctionAlreadyActiveException(vehicleId);
 
             var auction = new Auction(vehicleId, vehicle.StartingBid);
@@ -36,7 +36,7 @@ namespace AutoAuctionPro.Application.Services
 
         public async Task PlaceBidAsync(string vehicleId, string bidder, decimal amount)
         {
-            if(string.IsNullOrEmpty(bidder))
+            if (string.IsNullOrEmpty(bidder))
                 throw new ArgumentException("Bidder name is required", nameof(bidder));
 
             var auction = await _auctionRepository.GetActiveByVehicleIdAsync(vehicleId) ?? throw new AuctionNotActiveException(vehicleId);
@@ -59,7 +59,7 @@ namespace AutoAuctionPro.Application.Services
             var auction = await _auctionRepository.GetActiveByVehicleIdAsync(vehicleId) ?? throw new AuctionNotActiveException(vehicleId);
             var bid = auction.Close();
 
-            if(!string.IsNullOrEmpty(bid.BidderName))
+            if (!string.IsNullOrEmpty(bid.BidderName))
                 auction.Vehicle.IsSold = true;
 
             await _auctionRepository.UpdateAsync(auction);

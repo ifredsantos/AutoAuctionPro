@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AutoAuctionPro.Domain.Entities
+﻿namespace AutoAuctionPro.Domain.Entities
 {
     public class Auction
     {
@@ -39,7 +33,7 @@ namespace AutoAuctionPro.Domain.Entities
         {
             if (!IsActive)
                 throw new InvalidOperationException("Auction is not active");
-            
+
             if (bid.Amount <= CurrentHighestBid)
                 throw new ArgumentOutOfRangeException(nameof(bid), $"Bid amount must be higher than current highest bid {CurrentHighestBid}");
 

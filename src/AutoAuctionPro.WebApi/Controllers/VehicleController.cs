@@ -1,11 +1,8 @@
 ﻿using AutoAuctionPro.Application.DTOs;
 using AutoAuctionPro.Application.Interfaces;
 using AutoAuctionPro.Domain.Entities;
-using AutoAuctionPro.Infrastructure;
 using AutoAuctionPro.WebApi.DTOs;
-using Mapster;
 using MapsterMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoAuctionPro.WebApi.Controllers
@@ -50,7 +47,7 @@ namespace AutoAuctionPro.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] VehicleDTO request)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             Vehicle vehicle = null;
@@ -75,7 +72,7 @@ namespace AutoAuctionPro.WebApi.Controllers
 
             await _vehicleService.AddAsync(vehicle);
 
-            return CreatedAtAction(nameof(GetById), new { id = vehicle.Id}, vehicle);
+            return CreatedAtAction(nameof(GetById), new { id = vehicle.Id }, vehicle);
         }
     }
 }

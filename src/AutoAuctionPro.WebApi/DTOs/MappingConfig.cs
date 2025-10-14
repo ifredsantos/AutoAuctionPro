@@ -33,7 +33,7 @@ namespace AutoAuctionPro.WebApi.DTOs
             config.NewConfig<Bid, BidDTO>();
 
             config.NewConfig<Auction, AuctionDTO>()
-                .Map(dest => dest.Vehicle, src => src.Vehicle) 
+                .Map(dest => dest.Vehicle, src => src.Vehicle)
                 .Map(dest => dest.Bids, src => src.Bids);
 
             return config;

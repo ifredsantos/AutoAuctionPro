@@ -58,16 +58,16 @@ namespace AutoAuctionPro.Domain.Entities
         /// <exception cref="ArgumentOutOfRangeException">Thrown when year or startingBid are out of valid range.</exception>
         protected Vehicle(VehicleType type, string manufacturer, string model, int year, decimal startingBid)
         {
-            if (string.IsNullOrWhiteSpace(manufacturer)) 
+            if (string.IsNullOrWhiteSpace(manufacturer))
                 throw new ArgumentException("manufacturer is required", nameof(manufacturer));
 
-            if (string.IsNullOrWhiteSpace(model)) 
+            if (string.IsNullOrWhiteSpace(model))
                 throw new ArgumentException("model is required", nameof(model));
 
-            if (year < 1800 || year > DateTime.UtcNow.Year) 
+            if (year < 1800 || year > DateTime.UtcNow.Year)
                 throw new ArgumentOutOfRangeException(nameof(year));
 
-            if (startingBid < 0) 
+            if (startingBid < 0)
                 throw new ArgumentOutOfRangeException(nameof(startingBid));
 
 
