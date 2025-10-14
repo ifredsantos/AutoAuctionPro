@@ -22,7 +22,7 @@ namespace AutoAuctionPro.WebApi.Controllers
 
         // GET: api/vehicles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<VehicleDTO>>> GetAll([FromBody] VehicleSearchCriteria filterCriteria = null)
+        public async Task<ActionResult<IEnumerable<VehicleDTO>>> GetAll([FromQuery] VehicleSearchCriteria filterCriteria)
         {
             var vehicles = await _vehicleService.GetAllAsync(filterCriteria);
             IEnumerable<VehicleDTO> vehiclesDTO = _mapper.Map<IEnumerable<VehicleDTO>>(vehicles);
