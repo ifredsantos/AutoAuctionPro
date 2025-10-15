@@ -36,7 +36,7 @@ namespace AutoAuctionPro.Infrastructure
             return await _db.Auctions.Include(a => a.Vehicle).AsNoTracking().ToListAsync();
         }
 
-        public async Task<Auction> GetByVehicleIdAsync(string vehicleId)
+        public async Task<Auction?> GetByVehicleIdAsync(string vehicleId)
         {
             return await _db.Auctions.Include(a => a.Vehicle).Include(a => a.Bids).AsTracking().FirstOrDefaultAsync(x => x.VehicleId == vehicleId);
         }

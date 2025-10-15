@@ -9,7 +9,7 @@ namespace AutoAuctionPro.Application.Interfaces
         Task<Auction?> GetActiveByVehicleIdAsync(string vehicleId);
         Task RemoveAsync(Guid id);
         Task<IEnumerable<Auction>> GetAllAsync();
-        Task<Auction> GetByVehicleIdAsync(string vehicleId);
+        Task<Auction?> GetByVehicleIdAsync(string vehicleId);
         Task<Bid> PlaceBidAsync(Bid bid);
     }
 }
