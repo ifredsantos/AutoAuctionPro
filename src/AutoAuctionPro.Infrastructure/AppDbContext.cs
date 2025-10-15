@@ -12,7 +12,6 @@ namespace AutoAuctionPro.Infrastructure
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Auction> Auctions { get; set; }
         public DbSet<Bid> Bids { get; set; }
-        public DbSet<Bidder> Bidders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -71,12 +70,6 @@ namespace AutoAuctionPro.Infrastructure
                 b.Property(bid => bid.BidderName).IsRequired();
                 b.Property(bid => bid.Amount).IsRequired();
                 b.Property(bid => bid.BidTimeUTC).IsRequired();
-            });
-
-            //Bidder configuration
-            modelBuilder.Entity<Bidder>(b =>
-            {
-                b.HasKey(bidder => bidder.Username);
             });
         }
     }

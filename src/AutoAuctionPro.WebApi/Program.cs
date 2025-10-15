@@ -45,7 +45,6 @@ Env.Load();
 // Repositories
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
-builder.Services.AddScoped<IBidderRepository, BidderRepository>();
 
 // Domain Services
 builder.Services.AddScoped<IAuctionService, AuctionService>();
@@ -67,7 +66,6 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-app.UseMiddleware<BidderMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
