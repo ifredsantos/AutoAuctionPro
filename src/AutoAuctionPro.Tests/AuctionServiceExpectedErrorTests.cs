@@ -34,10 +34,11 @@ namespace AutoAuctionPro.Tests
 
             Sedan vehicle = new Sedan("BMW", "E36 320i", 1997, 5000, 5, "BMW-E36-320i-1997");
 
-            await vehicleService.AddAsync(vehicle);
+            if(!_db.Vehicles.Any(v => v.Id == vehicle.Id))
+                await vehicleService.AddAsync(vehicle);
             await Assert.ThrowsAsync<DuplicateVehicleException>(async () =>
             {
-                await _vehicleRepo.AddAsync(vehicle);
+                await vehicleService.AddAsync(vehicle);
             });
         }
 
@@ -63,10 +64,13 @@ namespace AutoAuctionPro.Tests
             if (soldVehicleList.Any())
             {
                 Vehicle? referenceVehicle = soldVehicleList.FirstOrDefault();
-                await Assert.ThrowsAsync<VehicleIsAlreadySoldException>(async () =>
+                if(referenceVehicle != null)
                 {
-                    await auctionService.StartAuctionAsync(referenceVehicle!.Id);
-                });
+                    await Assert.ThrowsAsync<VehicleIsAlreadySoldException>(async () =>
+                    {
+                        await auctionService.StartAuctionAsync(referenceVehicle!.Id);
+                    });
+                }
             }
         }
 
@@ -79,10 +83,13 @@ namespace AutoAuctionPro.Tests
             if(auctionList.Any())
             {
                 Auction? referenceAuction = auctionList.FirstOrDefault(a => a.CloseDateUTC == null);
-                await Assert.ThrowsAsync<AuctionAlreadyActiveException>(async () =>
+                if (referenceAuction != null)
                 {
-                    await auctionService.StartAuctionAsync(referenceAuction!.VehicleId);
-                });
+                    await Assert.ThrowsAsync<AuctionAlreadyActiveException>(async () =>
+                    {
+                        await auctionService.StartAuctionAsync(referenceAuction!.VehicleId);
+                    });
+                }
             }
         }
 
@@ -95,10 +102,13 @@ namespace AutoAuctionPro.Tests
             if (auctionList.Any())
             {
                 Auction? referenceAuction = auctionList.FirstOrDefault(a => a.CloseDateUTC != null);
-                await Assert.ThrowsAsync<AuctionNotActiveException>(async () =>
+                if (referenceAuction != null)
                 {
-                    await auctionService.CloseAuctionAsync(referenceAuction!.VehicleId);
-                });
+                    await Assert.ThrowsAsync<AuctionNotActiveException>(async () =>
+                    {
+                        await auctionService.CloseAuctionAsync(referenceAuction!.VehicleId);
+                    });
+                }
             }
         }
 

@@ -65,6 +65,11 @@ https://localhost:7278/swagger/
 
 Tests are located in `/AutoAuctionPro.Tests`.
 
+Run tests with:
+```bash
+dotnet test
+```
+
 The tests cover:
 - Vehicle creation  
 - Auction start  

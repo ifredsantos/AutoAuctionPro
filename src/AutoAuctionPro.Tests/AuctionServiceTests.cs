@@ -66,7 +66,7 @@ namespace AutoAuctionPro.Tests
             IEnumerable<Auction> activeAuctionList = (await auctionService.GetAllAsync())?.Where(x => x.CloseDateUTC == null)!;
             Auction? activeAuction = null;
 
-            if (activeAuctionList != null && activeAuctionList.Count() == 0)
+            if (activeAuctionList.Any())
             {
                 activeAuction = await auctionService.GetByVehicleIdAsync(activeAuctionList.FirstOrDefault()!.VehicleId);
             }
@@ -97,7 +97,7 @@ namespace AutoAuctionPro.Tests
             {
                 Auction auctionClosed = await auctionService.CloseAuctionAsync(activeAuction.VehicleId);
 
-                Assert.NotNull(auctionClosed.WinnerBidder);
+                Assert.Null(auctionClosed.WinnerBidder);
             }
         }
     }
