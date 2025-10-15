@@ -13,20 +13,25 @@ namespace AutoAuctionPro.Infrastructure
             _db = db ?? throw new ArgumentNullException("Missing " + nameof(db));
         }
 
-        public async Task AddAsync(Vehicle vehicle)
+        public async Task<Vehicle> AddAsync(Vehicle vehicle)
         {
             if (await _db.Vehicles.AnyAsync(v => v.Id == vehicle.Id))
                 throw new InvalidOperationException($"Vehicle with id {vehicle.Id} already exists.");
 
-            await _db.Vehicles.AddAsync(vehicle);
+            var entry = await _db.Vehicles.AddAsync(vehicle);
 
             await _db.SaveChangesAsync();
+
+            return entry.Entity;
         }
 
-        public async Task UpdateAsync(Vehicle vehicle)
+        public async Task<Vehicle> UpdateAsync(Vehicle vehicle)
         {
-            _db.Vehicles.Update(vehicle);
+            var entry = _db.Vehicles.Update(vehicle);
+
             await _db.SaveChangesAsync();
+
+            return entry.Entity;
         }
 
         public async Task<IEnumerable<Vehicle>> GetAllAsync()

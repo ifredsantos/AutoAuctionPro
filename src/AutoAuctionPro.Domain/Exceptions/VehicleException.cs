@@ -14,4 +14,14 @@
     {
         public VehicleIsAlreadySoldException(string id) : base(409, "Vehicle already sold", $"Vehicle with id '{id}' is already sold and cannot be auctioned again.") { }
     }
+
+    public class VehicleInvalidAmountException : DomainExceptionBase
+    {
+        public VehicleInvalidAmountException(int minValue) : base(400, "Invalid amount value", $"The vehicle has an invalid amount value. It must be greater than {minValue}.") { }
+    }
+
+    public class VehicleInvalidYearException : DomainExceptionBase
+    {
+        public VehicleInvalidYearException(int minYear, int maxYear) : base(400, "Invalid year", $"The vehicle's year value is invalid. It must be between {minYear} and {maxYear}.") { }
+    }
 }

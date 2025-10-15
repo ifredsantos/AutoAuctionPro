@@ -48,6 +48,8 @@ namespace AutoAuctionPro.Infrastructure
                 b.Property(a => a.IsActive);
                 b.Property(a => a.OpenDateUTC);
                 b.Property(a => a.CloseDateUTC);
+                b.Property(a => a.WinnerBidder);
+                b.Property(a => a.AmountSold);
                 b.Ignore(a => a.CurrentHighestBid);
 
                 b.HasMany(a => a.Bids)

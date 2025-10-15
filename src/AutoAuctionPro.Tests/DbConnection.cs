@@ -31,7 +31,7 @@ namespace AutoAuctionPro.Tests
                 .Options;
 
             var db = new AppDbContext(options);
-            //db.Database.EnsureDeleted();
+            db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
 
             return db;

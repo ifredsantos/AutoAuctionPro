@@ -3,6 +3,7 @@ using AutoAuctionPro.Application.Interfaces;
 using AutoAuctionPro.Domain.Entities;
 using AutoAuctionPro.WebApi.DTOs;
 using MapsterMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoAuctionPro.WebApi.Controllers
@@ -45,34 +46,35 @@ namespace AutoAuctionPro.WebApi.Controllers
 
         // POST: api/vehicles
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] VehicleDTO request)
+        public async Task<ActionResult> Create([FromBody] CreateVehicleDTO request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            Vehicle vehicle = null;
+            Vehicle? vehicle = null;
 
             switch (request.Type)
             {
                 case Domain.Enums.VehicleType.Sedan:
-                    vehicle = new Sedan(request.Manufacturer, request.Model, request.Year, request.StartingBid, request.NumberOfDoors);
+                    vehicle = new Sedan(request.Manufacturer, request.Model, request.Year, request.StartingBid, request.NumberOfDoors, request.Id);
                     break;
                 case Domain.Enums.VehicleType.SUV:
-                    vehicle = new SUV(request.Manufacturer, request.Model, request.Year, request.StartingBid, request.NumberOfSeats);
+                    vehicle = new SUV(request.Manufacturer, request.Model, request.Year, request.StartingBid, request.NumberOfSeats, request.Id);
                     break;
                 case Domain.Enums.VehicleType.Hatchback:
-                    vehicle = new Hatchback(request.Manufacturer, request.Model, request.Year, request.StartingBid, request.NumberOfDoors);
+                    vehicle = new Hatchback(request.Manufacturer, request.Model, request.Year, request.StartingBid, request.NumberOfDoors, request.Id);
                     break;
                 case Domain.Enums.VehicleType.Truck:
-                    vehicle = new Truck(request.Manufacturer, request.Model, request.Year, request.StartingBid, request.LoadCapacityKg);
+                    vehicle = new Truck(request.Manufacturer, request.Model, request.Year, request.StartingBid, request.LoadCapacityKg, request.Id);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(request.Type), "Invalid vehicle type");
             }
 
-            await _vehicleService.AddAsync(vehicle);
+            Vehicle addedVehicle = await _vehicleService.AddAsync(vehicle);
+            VehicleDTO addedVehicleDTO = _mapper.Map<VehicleDTO>(addedVehicle);
 
-            return CreatedAtAction(nameof(GetById), new { id = vehicle.Id }, vehicle);
+            return Ok(addedVehicleDTO);
         }
     }
 }

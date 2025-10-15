@@ -42,6 +42,14 @@ namespace AutoAuctionPro.WebApi.Middlewares
 
                 _logger.LogWarning("Domain exception: {Message}", ex.Message);
             }
+            else if (ex is ArgumentException argException)
+            {
+                status = 400;
+                title = "Argument exception";
+                detail = ex.Message;
+
+                _logger.LogWarning(ex.Message);
+            }
             else
             {
                 status = StatusCodes.Status500InternalServerError;

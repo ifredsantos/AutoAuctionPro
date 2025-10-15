@@ -1,4 +1,5 @@
 ﻿using AutoAuctionPro.Domain.Enums;
+using AutoAuctionPro.Domain.Exceptions;
 
 namespace AutoAuctionPro.Domain.Entities
 {
@@ -56,7 +57,7 @@ namespace AutoAuctionPro.Domain.Entities
         /// <param name="startingBid">Initial bid amount.</param>
         /// <exception cref="ArgumentException">Thrown when id, manufacturer or model is null or empty.</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when year or startingBid are out of valid range.</exception>
-        protected Vehicle(VehicleType type, string manufacturer, string model, int year, decimal startingBid)
+        protected Vehicle(VehicleType type, string? manufacturer, string? model, int year, decimal startingBid, string? id = null)
         {
             if (string.IsNullOrWhiteSpace(manufacturer))
                 throw new ArgumentException("manufacturer is required", nameof(manufacturer));
@@ -65,10 +66,10 @@ namespace AutoAuctionPro.Domain.Entities
                 throw new ArgumentException("model is required", nameof(model));
 
             if (year < 1800 || year > DateTime.UtcNow.Year)
-                throw new ArgumentOutOfRangeException(nameof(year));
+                throw new VehicleInvalidYearException(1800, DateTime.UtcNow.Year);
 
             if (startingBid < 0)
-                throw new ArgumentOutOfRangeException(nameof(startingBid));
+                throw new VehicleInvalidAmountException(minValue: 0);
 
 
             Type = type;
@@ -76,7 +77,10 @@ namespace AutoAuctionPro.Domain.Entities
             Model = model;
             Year = year;
             StartingBid = startingBid;
-            Id = GenerateCustomId();
+            if (string.IsNullOrEmpty(id))
+                Id = GenerateCustomId();
+            else
+                Id = id;
         }
 
         private string GenerateCustomId()

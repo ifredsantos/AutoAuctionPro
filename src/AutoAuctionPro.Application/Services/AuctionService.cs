@@ -8,13 +8,11 @@ namespace AutoAuctionPro.Application.Services
     {
         private readonly IVehicleRepository _vehicleRepository;
         private readonly IAuctionRepository _auctionRepository;
-        private readonly IBidRepository _bidRepository;
 
-        public AuctionService(IVehicleRepository vehicleRepository, IAuctionRepository auctionRepository, IBidRepository bidRepository)
+        public AuctionService(IVehicleRepository vehicleRepository, IAuctionRepository auctionRepository)
         {
             _vehicleRepository = vehicleRepository ?? throw new ArgumentNullException("Missing " + nameof(vehicleRepository));
             _auctionRepository = auctionRepository ?? throw new ArgumentNullException("Missing " + nameof(auctionRepository));
-            _bidRepository = bidRepository;
         }
 
         public async Task<Auction> StartAuctionAsync(string vehicleId)
@@ -34,7 +32,7 @@ namespace AutoAuctionPro.Application.Services
             return await _auctionRepository.AddAsync(auction);
         }
 
-        public async Task PlaceBidAsync(string vehicleId, string bidder, decimal amount)
+        public async Task<Bid> PlaceBidAsync(string vehicleId, string bidder, decimal amount)
         {
             if (string.IsNullOrEmpty(bidder))
                 throw new ArgumentException("Bidder name is required", nameof(bidder));
@@ -51,20 +49,17 @@ namespace AutoAuctionPro.Application.Services
                 throw new InvalidBidException(ex.Message);
             }
 
-            await _bidRepository.AddAsync(bid);
+            return await _auctionRepository.PlaceBidAsync(bid);
         }
 
-        public async Task<(string? Winner, decimal? Amount)> CloseAuctionAsync(string vehicleId)
+        public async Task<Auction> CloseAuctionAsync(string vehicleId)
         {
             var auction = await _auctionRepository.GetActiveByVehicleIdAsync(vehicleId) ?? throw new AuctionNotActiveException(vehicleId);
-            var bid = auction.Close();
-
-            if (!string.IsNullOrEmpty(bid.BidderName))
-                auction.Vehicle.IsSold = true;
+            Bid? bid = auction.Close();
 
             await _auctionRepository.UpdateAsync(auction);
 
-            return (bid?.BidderName, bid?.Amount);
+            return auction;
         }
 
         public async Task<IEnumerable<Auction>> GetAllAsync()

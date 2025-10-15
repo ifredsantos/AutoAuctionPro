@@ -1,4 +1,6 @@
-﻿namespace AutoAuctionPro.Domain.Enums
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AutoAuctionPro.Domain.Enums
 {
     public enum VehicleType
     {

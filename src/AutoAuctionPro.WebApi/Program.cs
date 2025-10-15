@@ -7,6 +7,7 @@ using DotNetEnv;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Text.Json.Serialization;
 
 var logPath = Path.Combine(AppContext.BaseDirectory, "logs", "app-.log");
 
@@ -44,7 +45,6 @@ Env.Load();
 // Repositories
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
-builder.Services.AddScoped<IBidRepository, BidRepository>();
 builder.Services.AddScoped<IBidderRepository, BidderRepository>();
 
 // Domain Services
@@ -55,7 +55,11 @@ var mappingConfig = MappingConfig.RegisterMappings();
 builder.Services.AddSingleton(mappingConfig);
 builder.Services.AddScoped<IMapper, ServiceMapper>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

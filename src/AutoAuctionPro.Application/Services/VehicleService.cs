@@ -14,7 +14,7 @@ namespace AutoAuctionPro.Application.Services
             _vehicleRepository = vehicleRepository ?? throw new ArgumentNullException("Missing " + nameof(vehicleRepository));
         }
 
-        public async Task AddAsync(Vehicle vehicle)
+        public async Task<Vehicle> AddAsync(Vehicle vehicle)
         {
             if (vehicle == null)
                 throw new ArgumentNullException("It is necessary to fill in the " + nameof(vehicle));
@@ -22,7 +22,7 @@ namespace AutoAuctionPro.Application.Services
             if (await _vehicleRepository.ExistsAsync(vehicle.Id))
                 throw new DuplicateVehicleException(vehicle.Id);
 
-            await _vehicleRepository.AddAsync(vehicle);
+            return await _vehicleRepository.AddAsync(vehicle);
         }
 
         public async Task<Vehicle?> GetByIdAsync(string id)
@@ -48,6 +48,9 @@ namespace AutoAuctionPro.Application.Services
 
                 if (filterCriteria.Year.HasValue)
                     query = query.Where(v => v.Year == filterCriteria.Year.Value);
+
+                if(filterCriteria.isSold.HasValue)
+                    query = query.Where(v => v.IsSold == filterCriteria.isSold.Value);
             }
 
             return query.ToList();

@@ -56,7 +56,7 @@ namespace AutoAuctionPro.WebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _auctionService.PlaceBidAsync(vehicleId, request.Bidder, request.Amount);
+            await _auctionService.PlaceBidAsync(vehicleId, request.Bidder!, request.Amount);
             return Ok(new { message = "Bid placed successfully." });
         }
 
@@ -64,8 +64,9 @@ namespace AutoAuctionPro.WebApi.Controllers
         [HttpPost("{vehicleId}/close")]
         public async Task<ActionResult> CloseAuction(string vehicleId)
         {
-            var (winner, amount) = await _auctionService.CloseAuctionAsync(vehicleId);
-            return Ok(new { winner, amount });
+            Auction auctionClosed = await _auctionService.CloseAuctionAsync(vehicleId);
+            AuctionDTO auctionClosedDTO = _mapper.Map<AuctionDTO>(auctionClosed);
+            return Ok(auctionClosedDTO);
         }
     }
 }

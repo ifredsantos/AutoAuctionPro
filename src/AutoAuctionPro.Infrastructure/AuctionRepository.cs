@@ -22,10 +22,13 @@ namespace AutoAuctionPro.Infrastructure
             return entry.Entity;
         }
 
-        public async Task UpdateAsync(Auction auction)
+        public async Task<Auction> UpdateAsync(Auction auction)
         {
-            _db.Auctions.Update(auction);
+            var entry = _db.Auctions.Update(auction);
+
             await _db.SaveChangesAsync();
+
+            return entry.Entity;
         }
 
         public async Task<IEnumerable<Auction>> GetAllAsync()
@@ -51,6 +54,15 @@ namespace AutoAuctionPro.Infrastructure
                 _db.Auctions.Remove(auction);
                 await _db.SaveChangesAsync();
             }
+        }
+
+        public async Task<Bid> PlaceBidAsync(Bid bid)
+        {
+            var entry = await _db.Bids.AddAsync(bid);
+
+            await _db.SaveChangesAsync();
+
+            return entry.Entity;
         }
     }
 }
