@@ -37,17 +37,11 @@ namespace AutoAuctionPro.Application.Services
             if (string.IsNullOrEmpty(bidder))
                 throw new ArgumentException("Bidder name is required", nameof(bidder));
 
-            var auction = await _auctionRepository.GetActiveByVehicleIdAsync(vehicleId) ?? throw new AuctionNotActiveException(vehicleId);
+            var auction = await _auctionRepository.GetActiveByVehicleIdAsync(vehicleId)
+                ?? throw new AuctionNotActiveException(vehicleId);
             var bid = new Bid(auction.Id, bidder, amount);
 
-            try
-            {
-                auction.PlaceBid(bid);
-            }
-            catch (InvalidOperationException ex)
-            {
-                throw new InvalidBidException(ex.Message);
-            }
+            auction.PlaceBid(bid);
 
             return await _auctionRepository.PlaceBidAsync(bid);
         }

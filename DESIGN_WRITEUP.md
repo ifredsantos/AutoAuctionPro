@@ -97,11 +97,11 @@ public interface IVehicleRepository
 ## 6. Database Configuration
 
 ```env
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=AutoAuctionPro
-DB_USER=postgres
-DB_PASS=password
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=AutoAuctionPro
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=password
 ```
 
 EF Core migrations:

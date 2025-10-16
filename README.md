@@ -40,11 +40,11 @@ Developed in **.NET 9** with **PostgreSQL** and **Entity Framework Core**, follo
 
 Create a PostgreSQL database or use an existing one, and define the variables in the `.env` file:
 ```env
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=AutoAuctionPro
-DB_USER=postgres
-DB_PASS=password
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=AutoAuctionPro
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=password
 ```
 This `.env` file should exist in both the WebApi and the Tests projects.
 
