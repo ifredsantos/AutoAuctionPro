@@ -168,9 +168,10 @@ public async Task TestAllFlow()
 - Background jobs for automatic auction closure  
 - Caching of active auctions  
 - Improvement in the log system 
-- Frontend with React
+- Add creation date, update date, and transaction ID to help with support
 - Improve the auction list retrieval system by adding filters.
 - Improve the auction list retrieval system to support pagination.
+- Frontend with React
 
 ---
 
