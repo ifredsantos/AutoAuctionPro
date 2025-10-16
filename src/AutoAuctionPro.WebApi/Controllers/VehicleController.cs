@@ -3,7 +3,6 @@ using AutoAuctionPro.Application.Interfaces;
 using AutoAuctionPro.Domain.Entities;
 using AutoAuctionPro.WebApi.DTOs;
 using MapsterMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoAuctionPro.WebApi.Controllers

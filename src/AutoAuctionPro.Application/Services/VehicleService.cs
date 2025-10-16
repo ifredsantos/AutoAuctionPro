@@ -49,7 +49,7 @@ namespace AutoAuctionPro.Application.Services
                 if (filterCriteria.Year.HasValue)
                     query = query.Where(v => v.Year == filterCriteria.Year.Value);
 
-                if(filterCriteria.isSold.HasValue)
+                if (filterCriteria.isSold.HasValue)
                     query = query.Where(v => v.IsSold == filterCriteria.isSold.Value);
             }
 

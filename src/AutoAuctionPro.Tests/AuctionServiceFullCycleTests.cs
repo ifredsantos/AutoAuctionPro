@@ -1,10 +1,8 @@
 ﻿using AutoAuctionPro.Application.DTOs;
-using AutoAuctionPro.Application.Interfaces;
 using AutoAuctionPro.Application.Services;
 using AutoAuctionPro.Domain.Entities;
 using AutoAuctionPro.Domain.Enums;
 using AutoAuctionPro.Infrastructure;
-using System.Threading.Tasks;
 
 namespace AutoAuctionPro.Tests
 {

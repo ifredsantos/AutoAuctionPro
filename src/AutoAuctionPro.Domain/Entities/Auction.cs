@@ -1,5 +1,4 @@
 ﻿using AutoAuctionPro.Domain.Exceptions;
-using System.Security.Cryptography;
 
 namespace AutoAuctionPro.Domain.Entities
 {

@@ -1,12 +1,8 @@
 ﻿using AutoAuctionPro.Application.DTOs;
-using AutoAuctionPro.Application.Interfaces;
 using AutoAuctionPro.Application.Services;
 using AutoAuctionPro.Domain.Entities;
-using AutoAuctionPro.Domain.Enums;
 using AutoAuctionPro.Domain.Exceptions;
 using AutoAuctionPro.Infrastructure;
-using Microsoft.Extensions.DependencyModel;
-using System.Threading.Tasks;
 
 namespace AutoAuctionPro.Tests
 {
@@ -34,7 +30,7 @@ namespace AutoAuctionPro.Tests
 
             Sedan vehicle = new Sedan("BMW", "E36 320i", 1997, 5000, 5, "BMW-E36-320i-1997");
 
-            if(!_db.Vehicles.Any(v => v.Id == vehicle.Id))
+            if (!_db.Vehicles.Any(v => v.Id == vehicle.Id))
                 await vehicleService.AddAsync(vehicle);
             await Assert.ThrowsAsync<DuplicateVehicleException>(async () =>
             {
@@ -64,7 +60,7 @@ namespace AutoAuctionPro.Tests
             if (soldVehicleList.Any())
             {
                 Vehicle? referenceVehicle = soldVehicleList.FirstOrDefault();
-                if(referenceVehicle != null)
+                if (referenceVehicle != null)
                 {
                     await Assert.ThrowsAsync<VehicleIsAlreadySoldException>(async () =>
                     {
@@ -80,7 +76,7 @@ namespace AutoAuctionPro.Tests
             AuctionService auctionService = new AuctionService(_vehicleRepo, _auctionRepo);
 
             IEnumerable<Auction> auctionList = await auctionService.GetAllAsync();
-            if(auctionList.Any())
+            if (auctionList.Any())
             {
                 Auction? referenceAuction = auctionList.FirstOrDefault(a => a.CloseDateUTC == null);
                 if (referenceAuction != null)
@@ -121,7 +117,7 @@ namespace AutoAuctionPro.Tests
             {
                 await auctionService.GetByVehicleIdAsync("RANDOM ID");
             });
-            
+
         }
     }
 }
